@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pendingReport_template" language="groovy" pageWidth="666" pageHeight="802" columnWidth="666" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="false" uuid="af3d40e9-35eb-4c43-8e69-9decd2091ca7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#CCCCCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#E6E6E6"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="TableDataSource" uuid="0a5a72c8-ea2e-413d-b63d-4947362e061d">
+		<queryString language="SQL">
+			<![CDATA[SELECT  CVA.CHASISNUMBER AS chasisNumber,CVA.firstServicedate AS actual_date_of_service,CD.CUSTOMERDETAILS AS customerDetails,'1st Service' AS serviceName FROM customer_vehicle_actuals CVA,customerDetails CD WHERE  CVA.CHASISNUMBER NOT IN ( SELECT CHASISNUMBER FROM servicedetails WHERE ServiceName = '1st Service' ) AND CVA.CHASISNUMBER = CD.CHASISNUMBER]]>
+		</queryString>
+		<field name="customerDetails" class="java.lang.String"/>
+		<field name="chasisNumber" class="java.lang.String"/>
+		<field name="serviceName" class="java.lang.String"/>
+		<field name="actual_date_of_service" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PendingReportdata" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT  CVA.CHASISNUMBER AS "chasisNumber",CVA.firstServicedate AS "actual_date_of_service",CD.CUSTOMERDETAILS AS "customerDetails",'1st Service' AS "serviceName" FROM customer_vehicle_actuals CVA,customerDetails CD WHERE  CVA.CHASISNUMBER NOT IN ( SELECT CHASISNUMBER FROM servicedetails WHERE ServiceName = '1st Service' ) AND CVA.CHASISNUMBER = CD.CHASISNUMBER]]>
+	</queryString>
+	<field name="chasisNumber" class="java.lang.String"/>
+	<field name="actual_date_of_service" class="java.lang.String"/>
+	<field name="customerDetails" class="java.lang.String"/>
+	<field name="serviceName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<componentElement>
+				<reportElement uuid="a7e87a00-bc90-46f9-acb7-ef0fe4ea2ac7" key="table" style="table" mode="Transparent" x="0" y="0" width="666" height="42"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="TableDataSource" uuid="6d12954c-9779-4951-bdea-168a0c132a7e">
+						<datasetParameter name="REPORT_DATA_SOURCE">
+							<datasetParameterExpression><![CDATA[$P{PendingReportdata}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column uuid="40386b0f-0b1e-48ea-b488-24485278898f" width="198">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="6908e936-808e-41ce-a0c7-c9e530eac726" mode="Transparent" x="0" y="0" width="198" height="30" forecolor="#000000" backcolor="#CCCCCC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Contact Details]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true">
+								<reportElement uuid="86dd5fb7-8a9a-4d4c-a274-bb4d383d68bf" stretchType="RelativeToTallestObject" x="5" y="0" width="193" height="20"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{customerDetails}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="465b1231-2419-4865-87f6-5ff969b0fad6" width="178">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="2c785915-71d8-4e29-952e-c65ed7335421" mode="Transparent" x="0" y="0" width="177" height="30" backcolor="#CCCCCC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Chasis Number]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="ac7ff9bc-985b-4d4f-98c5-c03d7e3671ef" x="0" y="0" width="178" height="20"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{chasisNumber}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="8598b50f-9729-4b5f-9b5f-205fa2059eed" width="156">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="aadb7abc-fcd4-4f32-9757-259eed65d95f" mode="Transparent" x="0" y="0" width="156" height="30" backcolor="#CCCCCC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Actual Date Of Service]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="b469218a-439b-4a51-996a-52b0d4c94f3c" x="0" y="0" width="156" height="20"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{actual_date_of_service}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column uuid="31cf19b8-d127-459f-8b38-749ca28910f9" width="142">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="06551b96-0589-437c-ba82-0dd458ce0201" mode="Transparent" x="0" y="0" width="142" height="30" forecolor="#000000" backcolor="#CCCCCC"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Service Name]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="572f782b-b2a1-4b19-9a96-c0efe1ff0689" x="0" y="0" width="142" height="20"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{serviceName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

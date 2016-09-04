@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		">
+
+	<context:component-scan base-package="org.races.controller"></context:component-scan>
+	<mvc:annotation-driven />
+	 
+	<!-- <mvc:resources mapping="WEB-INF/css/**" location="WEB-INF/css/"/> -->
+
+	<!-- Database and JDBC related bean -->
+
+	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+
+	 		
+		<!-- 
+		<property name="url" value="jdbc:mysql://localhost:3306/Races?relaxAutoCommit=true" />
+		 -->
+		
+		 <property name="url" value="jdbc:mysql://localhost:3306/Races" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="jdbctemp" class="org.springframework.jdbc.core.JdbcTemplate"
+		autowire="byType">
+		<constructor-arg>
+			<ref local="datasource" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="datasource" />
+	</bean>
+
+	<bean
+	class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
+	id="namedParameterJdbcTemplate">
+	<constructor-arg>
+		<ref local="datasource" />
+	</constructor-arg>
+	<!-- <property name="dataSource" ref="datasource"></property> -->
+</bean> 
+
+	<!-- 
+	<bean id="read_excel" class="org.races.util.ReadExcel" autowire="byType" />
+
+	<bean id="customerData" class="org.races.util.readCustomerDetails"
+		autowire="byType" />
+	<bean id="read_Spares_Details" class="org.races.util.Read_spares_details"
+		autowire="byType" />
+-->
+	<bean id="daoObject" class="org.races.dao.RacesDaoImpl" autowire="byType" />
+	<!-- <bean id="ts" class="org.races.dao.testdao" autowire="byType"/> -->
+	<bean id="dao_Constants" class="org.races.dao.Dao_Constants"
+		autowire="byType" />
+	<bean id="racesService" class="org.races.service.RacesServiceImpl"
+		autowire="byType" />
+	<bean id="sendMail" class="org.races.util.SendMail" autowire="byType"></bean>
+	<bean id="jasperUtil" class="org.races.util.JasperUtil" autowire="byType" />
+	<bean id="reportUtil" class="org.races.util.ReportUtil" autowire="byType" />
+	<bean id="dateUtil" class="org.races.util.DateUtil" autowire="byType" />
+	<bean id="queryList" class="org.races.util.QueryList" autowire="byType" />
+	<bean id="encryptData" class="org.races.util.Encryptor" autowire="byType" />
+	<bean id="expUtil" class="org.races.util.ExportUtil" autowire="byType" />
+	<!-- #################### View Related Bean ##################### -->
+
+	<bean name="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/view/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+
+	<!-- Propertiy files are configured to externalize all values. -->
+	<bean id="propertyConfigurator"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:report.properties</value>
+				<value>classpath:vehicle_model_mapping.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- ######################################### -->
+
+</beans>

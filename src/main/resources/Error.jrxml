@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Error" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty" uuid="f4e02833-7246-4649-bd17-8f60cd202744">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="testdataset" uuid="0cae850d-665f-45ed-8abc-600e1e979a02">
+		<queryString>
+			<![CDATA[select * from ARTICLES_ACCESSED_MOSTRECENT]]>
+		</queryString>
+	</subDataset>
+	<parameter name="message" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[Error]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TableDataSource" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select * from ARTICLES_ACCESSED_MOSTRECENT]]>
+	</queryString>
+	<summary>
+		<band height="226" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ba56a742-fde9-4157-a497-9f2fa70c7583" x="0" y="0" width="555" height="226"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None">
+					<font size="14" isBold="true"/>
+					<paragraph rightIndent="25"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{message}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
